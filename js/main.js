@@ -191,7 +191,7 @@
         //'<span class="hero__label">Hero video → assets/hero/hero.mp4</span>' +
       "</section>" +
       '<section class="about" id="about">' +
-        //'<div class="about__media is-empty" id="aboutMedia"><span class="ph-label">About photos → assets/about/1.jpg, 2.jpg …</span></div>' +
+        '<div class="about__media is-empty" id="aboutMedia"><span class="ph-label">About photos → assets/about/1.jpg, 2.jpg …</span></div>' +
         '<div class="about__text"><div class="about__inner"><h2 class="about__title">' + esc(about.title || "About HabiMerch") + "</h2>" + aboutText + "</div></div>" +
       "</section>" +
       '<section class="wrap recommended">' +
