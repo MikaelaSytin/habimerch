@@ -324,8 +324,8 @@
   top.innerHTML = announcement() + header();
   bottom.innerHTML = footer();
 
-  var titles = { home: "Habimerch", all: "Shop All – Habimerch", apparel: "All Apparel – Habimerch", items: "All Items – Habimerch", bundles: "All Bundles – Habimerch", order: "Order – Habimerch" };
-  document.title = titles[page] || "Habimerch";
+  var titles = { home: "HabiMerch", all: "Shop All – HabiMerch", apparel: "All Apparel – HabiMerch", items: "All Items – HabiMerch", bundles: "All Bundles – HabiMerch", order: "Order – HabiMerch" };
+  document.title = titles[page] || "HabiMerch";
 
   if (page === "home") main.innerHTML = homePage();
   else if (page === "product") main.innerHTML = productPage();
