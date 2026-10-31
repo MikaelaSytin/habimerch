@@ -165,7 +165,9 @@
   function homePage() {
     var rec = PRODUCTS.filter(function (p) { return p.recommended; }).slice(0, 4);
     var about = C.about || {};
-    var aboutText = (about.paragraphs || []).map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("");
+    var aboutText = (about.paragraphs || []).map(function (t) {
+      return "<p>" + esc(t).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>") + "</p>";
+    }).join("");
     return '<section class="hero" id="hero" style="background-image:url(\'' + esc(C.hero.poster) + '\')">' +
         '<video class="hero__video" id="heroVideo" autoplay muted loop playsinline preload="auto">' +
           '<source src="' + esc(C.hero.video) + '" type="video/mp4"></video>' +
