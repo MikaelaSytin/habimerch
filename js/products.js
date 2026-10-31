@@ -96,7 +96,7 @@ window.PRODUCTS = [
     price: "₱700",
     category: "bundles",
     badge: null,
-    description: "Bobbi builds best with the Barista Bobbi Bundle, mixing the House Blend Tee and Barista Cap for the perfect next fit.",
+    description: "Bobbi builds best with the Barista Bobbi Bundle, mixing the Barista Cap with your chosen Tee for the perfect next fit.",
     recommended: false,
     images: ["1.jpg", "2.jpg", "3.jpg", "4.jpg"]
   },

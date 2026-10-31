@@ -39,7 +39,7 @@ window.SITE_CONFIG = {
     intervalMs: 4000,
     title: "About HabiMerch",
     paragraphs: [
-      "An annual fundraising project under Habitat for Humanity Blue Chapter that aims to sell HFH BC merchandise through online pre-order and an onsite exhibit, which will be held in SEC-B Foyer on November 19-20, 2026.",
+      "An annual fundraising project under Habitat for Humanity Blue Chapter that aims to sell HFH BC merchandise through online orders and an onsite exhibit, which will be held in SEC-B Foyer on November 19-20, 2026.",
       "Led by the Finance Department in collaboration with Creative Communications, the goal is to raise awareness of the organization's advocacy and allow members and non-members to show their support, while raising funds for future projects and advocacy initiatives."
     ]
   },
