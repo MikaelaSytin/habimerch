@@ -28,7 +28,7 @@
 
 window.PRODUCTS = [
   {
-    slug: "Breakfast-Tee",
+    slug: "breakfast-tee",
     name: "Breakfast Tee",
     price: "₱400",
     category: "apparel",
