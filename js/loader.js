@@ -28,7 +28,7 @@
   var el = document.createElement("div");
   el.id = "loader";
   el.setAttribute("aria-label", "Loading");
-  el.innerHTML = '<img src="assets/brand/logo.png" alt="Habimerch"><div class="hm-dots"><i></i><i></i><i></i></div>';
+  el.innerHTML = '<img src="assets/brand/logo.png" alt="HabiMerch"><div class="hm-dots"><i></i><i></i><i></i></div>';
   document.documentElement.appendChild(el);
   document.documentElement.classList.add("is-loading");
 

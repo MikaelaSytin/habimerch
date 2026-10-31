@@ -85,7 +85,7 @@
       return '<a href="' + href + '"' + (active === key ? ' class="is-active"' : "") + ">" + label + "</a>";
     }
     return '<header class="site-header">' +
-      '<a class="logo-link" href="index.html">' + brandImg(C.brand.logo, "logo", "Habimerch") + "</a>" +
+      '<a class="logo-link" href="index.html">' + brandImg(C.brand.logo, "logo", "HabiMerch") + "</a>" +
       '<nav class="nav" id="nav">' +
         link("all", "Shop All", "shop-all.html") +
         link("apparel", "Apparel", "apparel.html") +
@@ -224,7 +224,7 @@
     if (!p) {
       return '<section class="wrap listing"><h1 class="page-title">Product not found</h1><p class="empty"><a href="shop-all.html">Back to Shop All →</a></p></section>';
     }
-    document.title = p.name + " – Habimerch";
+    document.title = p.name + " – HabiMerch";
     var related = PRODUCTS.filter(function (x) { return x.slug !== p.slug && x.category === p.category; })
       .concat(PRODUCTS.filter(function (x) { return x.slug !== p.slug && x.category !== p.category; }))
       .slice(0, 4);
