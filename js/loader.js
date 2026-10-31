@@ -3,6 +3,7 @@
 (function () {
   var MIN_SHOW = 500;    // ms: shortest time the loader stays up (avoids a flash)
   var MAX_WAIT = 8000;   // ms: gives up after this so the page is never stuck
+  var PLACEHOLDER_WAIT = 5000; // ms: how long to wait for empty photo slots to fill (a slot with no photo file never fills)
 
   try {
     if (sessionStorage.getItem("hm-loaded")) return;
@@ -35,14 +36,22 @@
   var loaded = false;
   window.addEventListener("load", function () { loaded = true; });
 
-  // true when every image currently in the visible part of the page has finished loading
-  function visibleImagesReady() {
+  // true when every image in the visible part of the page has loaded,
+  // and no photo slot is still showing its "image placeholder" box
+  function visibleImagesReady(elapsed) {
+    function inView(node) {
+      var r = node.getBoundingClientRect();
+      return r.top < window.innerHeight && r.bottom > 0;
+    }
     var imgs = document.images;
     for (var i = 0; i < imgs.length; i++) {
       var im = imgs[i];
       if (el.contains(im) || im.complete) continue;
-      var r = im.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0) return false;
+      if (inView(im)) return false;
+    }
+    if (elapsed < PLACEHOLDER_WAIT) {
+      var empty = document.querySelectorAll(".card__media.is-empty, .gallery__main.is-empty, .about__media.is-empty");
+      for (var j = 0; j < empty.length; j++) if (inView(empty[j])) return false;
     }
     return true;
   }
@@ -50,7 +59,7 @@
   var okChecks = 0;
   var timer = setInterval(function () {
     var elapsed = Date.now() - start;
-    okChecks = (loaded && visibleImagesReady()) ? okChecks + 1 : 0;
+    okChecks = (loaded && visibleImagesReady(elapsed)) ? okChecks + 1 : 0;
     if ((okChecks >= 3 && elapsed >= MIN_SHOW) || elapsed >= MAX_WAIT) {
       clearInterval(timer);
       el.classList.add("is-done");

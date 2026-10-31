@@ -57,11 +57,11 @@
     }
     return imgCache[key];
   }
-  /* images used on cards: the product's own "images", or every color's images combined if it has none */
-  function getImages(p) {
-    var files = p.images || (p.colors ? [].concat.apply([], p.colors.map(function (c) { return c.images || []; })) : []);
-    return loadImages(files, p.slug);
+  /* file names used on cards: the product's own "images", or every color's images combined if it has none */
+  function cardFiles(p) {
+    return p.images || (p.colors ? [].concat.apply([], p.colors.map(function (c) { return c.images || []; })) : []);
   }
+  function getImages(p) { return loadImages(cardFiles(p), p.slug); }
 
   /* ---------- icons ---------- */
   var ICONS = {
@@ -130,26 +130,43 @@
     "</a>";
   }
 
-  /* Fills cards with images and sets up the hover swap */
+  /* Fills cards with images and sets up the hover swap.
+  The first photo is shown as soon as it arrives; the rest load afterwards for the hover. */
   function hydrate(root) {
     root.querySelectorAll(".card").forEach(function (el) {
       var p = bySlug[el.dataset.slug];
       if (!p) return;
-      getImages(p).then(function (urls) {
-        if (!urls.length) return;
-        var media = el.querySelector(".card__media");
+      var files = cardFiles(p);
+      if (!files.length) return;
+      var media = el.querySelector(".card__media");
+      var imgs = [], coverUrl = null;
+
+      function add(u, on) {
+        var im = document.createElement("img");
+        im.src = u;
+        im.alt = p.name;
+        im.className = "card__img" + (on ? " is-on" : "");
+        media.appendChild(im);
+        imgs.push(im);
+      }
+      function showCover(u) {
+        if (coverUrl) return;
+        coverUrl = u;
         media.classList.remove("is-empty");
         var lbl = media.querySelector(".ph-label");
         if (lbl) lbl.remove();
-        urls.forEach(function (u, i) {
-          var im = document.createElement("img");
-          im.src = u;
-          im.alt = p.name;
-          im.className = "card__img" + (i === 0 ? " is-on" : "");
-          media.appendChild(im);
-        });
-        if (urls.length < 2) return;
-        var imgs = media.querySelectorAll(".card__img");
+        add(u, true);
+      }
+
+      loadImages(files.slice(0, 1), p.slug).then(function (first) {
+        if (first.length) showCover(first[0]);
+      });
+
+      loadImages(files, p.slug).then(function (urls) {
+        if (!urls.length) return;
+        showCover(urls[0]);   // only matters if the first file was missing
+        urls.forEach(function (u) { if (u !== coverUrl) add(u, false); });
+        if (imgs.length < 2) return;
         var idx = 0, timer = null;
         function show(n) { imgs[idx].classList.remove("is-on"); idx = n; imgs[idx].classList.add("is-on"); }
         el.addEventListener("mouseenter", function () {

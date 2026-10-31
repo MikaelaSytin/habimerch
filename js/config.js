@@ -13,7 +13,7 @@ window.SITE_CONFIG = {
 
   /* 2) ANNOUNCEMENT BAR (scrolls across the top) ---------------- */
   announcements: [
-    "Onsite Booth: Nov 19 - 20 (SEC B - Foyer)",
+    "Onsite Booth: Nov 19 - 20 (SEC-B Foyer)",
     "Get Your Merch Now!",
     "Limited Time Only"
   ],
