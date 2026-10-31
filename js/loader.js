@@ -49,6 +49,15 @@
       if (el.contains(im) || im.complete) continue;
       if (inView(im)) return false;
     }
+    // home page: also wait for the hero banner picture (it is a CSS background, so it is not in document.images)
+    if (document.body && document.body.dataset.page === "home") {
+      if (!heroImg) {
+        heroImg = new Image();
+        heroImg.onload = heroImg.onerror = function () { heroDone = true; };
+        heroImg.src = "assets/hero/hero.jpg";
+      }
+      if (!heroDone && elapsed < MAX_WAIT) return false;
+    }
     if (elapsed < PLACEHOLDER_WAIT) {
       var empty = document.querySelectorAll(".card__media.is-empty, .gallery__main.is-empty, .about__media.is-empty");
       for (var j = 0; j < empty.length; j++) if (inView(empty[j])) return false;
@@ -56,6 +65,7 @@
     return true;
   }
 
+  var heroImg = null, heroDone = false;
   var okChecks = 0;
   var timer = setInterval(function () {
     var elapsed = Date.now() - start;

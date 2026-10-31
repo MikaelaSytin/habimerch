@@ -339,35 +339,38 @@
   }
 
   /* about photos: fade from one to the next, automatically */
-  var aboutMedia = document.getElementById("aboutMedia");
+    var aboutMedia = document.getElementById("aboutMedia");
   if (aboutMedia && C.about && C.about.images && C.about.images.length) {
-    Promise.all(C.about.images.map(function (f) {
-      return new Promise(function (resolve) {
-        var im = new Image(), url = "assets/about/" + f;
-        im.onload = function () { resolve(url); };
-        im.onerror = function () { resolve(null); };
-        im.src = url;
-      });
-    })).then(function (list) {
-      var urls = list.filter(Boolean);
-      if (!urls.length) return;                       // no photos yet: keep the placeholder
-      aboutMedia.classList.remove("is-empty");
-      aboutMedia.innerHTML = "";
-      var imgs = urls.map(function (u, i) {
-        var im = document.createElement("img");
-        im.src = u; im.alt = C.about.title || "About HabiMerch";
-        if (i === 0) im.className = "is-on";
-        aboutMedia.appendChild(im);
-        return im;
-      });
-      if (imgs.length < 2) return;
-      var cur = 0;
-      setInterval(function () {
-        if (document.hidden) return;
-        imgs[cur].classList.remove("is-on");
-        cur = (cur + 1) % imgs.length;
-        imgs[cur].classList.add("is-on");
-      }, C.about.intervalMs || 4000);
+    var aboutImgs = [], aboutCur = 0, aboutTimer = null;
+    var aboutAlt = C.about.title || "About HabiMerch";
+
+    function aboutAdd(im) {
+      if (!aboutImgs.length) {                        // first photo: show it right away
+        aboutMedia.classList.remove("is-empty");
+        aboutMedia.innerHTML = "";
+        im.className = "is-on";
+      }
+      im.alt = aboutAlt;
+      aboutMedia.appendChild(im);
+      aboutImgs.push(im);
+      if (aboutImgs.length === 2) {                   // start the slideshow once there are two photos
+        aboutTimer = setInterval(function () {
+          if (document.hidden) return;
+          aboutImgs[aboutCur].classList.remove("is-on");
+          aboutCur = (aboutCur + 1) % aboutImgs.length;
+          aboutImgs[aboutCur].classList.add("is-on");
+        }, C.about.intervalMs || 4000);
+      }
+    }
+    function aboutLoad(f, done) {
+      var im = new Image();
+      im.onload = function () { aboutAdd(im); if (done) done(); };
+      im.onerror = function () { if (done) done(); };
+      im.src = "assets/about/" + f;
+    }
+    // load photo 1 first so it appears immediately, then the rest
+    aboutLoad(C.about.images[0], function () {
+      C.about.images.slice(1).forEach(function (f) { aboutLoad(f); });
     });
   }
 
