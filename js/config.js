@@ -9,7 +9,7 @@ window.SITE_CONFIG = {
      Every "Order Now" button (header + product pages) opens this
      link directly, in a new tab. Use the form's public link
      (ends in /viewform), not the editing link (ends in /edit).   */
-  orderFormUrl: "https://docs.google.com/forms/d/1lHCykiJRd1S8CgFRrwLuKr2dq90RvBdVNMJe8B1_Y1U/viewform",
+  orderFormUrl: "https://tinyurl.com/HFHBC2627-HabiMerch",
 
   /* 2) ANNOUNCEMENT BAR (scrolls across the top) ---------------- */
   announcements: [
